@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="{{ url_for('static',filename='styles/style_index.css') }}">
+     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+</head>
+<body>
+  <div class="menu">
+    <div class="menu__body">
+      <a href="/" class="menu__button">главная</a>
+      <a href="/products" class="menu__button">товар</a>
+      <a href="/on_map" class="menu__button">на карте</a>
+      {% if current_user.is_authenticated %}
+        <a class="menu__button" href="/profile">{{ current_user.name }}</a>
+      {% else %}
+        <a class="menu__button" href="/login">войти</a>
+      {% endif %}
+    </div>
+  </div>
+  <main role="main" class="container">
+  <title>Мебельный магазин "Mebel"</title>
+  <div class="wrapper">
+    <header class="header">
+        <div class="header__fon">
+          <p class="header__img"><img src="{{ url_for('static',filename='img/фон.jpg') }}" class="header__img"></p>
+            <div class="header__title">Mebel</div>
+              <div class="header__subtitle">Мебельный магазин</div>
+        </div>
+    </header>
+    <div class="content-block">
+      <div class="content">
+        <p class="content__img-item"><img src="{{ url_for('static',filename='img/стул1.png') }}" class="content__img"></p>
+          <div class="content__description">Mebel – это поистине мебельный рай. В нашем интернет-магазине вы сможете подобрать себе мебель под любые вкусовые и цветовые предпочтения. Наш ассортимент наполнен различными вариантами под каждую из ценовых категорий от бюджетных видов отечественного изготовления до моделей премиум класса, представленных ведущими итальянскими производителями. Размещенная на страницах сайта продукция подарит вашему дому чувство комфорта и уюта на долгие годы.</div>
+      </div>
+    </div>
+    <div class="content-block">
+      <div class="content">
+        <p class="content__img-item"><img src="{{ url_for('static',filename='img/стол.png') }}" class="content__img"></p>
+          <div class="content__description">Практически под каждый вариант комнаты предлагается от пятнадцати до пятидесяти различных модулей. В наличии представлена мебель самых различных стилей от неброского «минимализма» до прогрессивного «хай-тека». Также в нашем ассортименте можно подобрать отдельные мебельные элементы из тысячи представленных моделей, сориентироваться в них вам поможет удобная навигация по сайту, расположенная в левой части экрана, или опытные эксперты, которые расскажут вам технические подробности и условия доставки.</div>
+      </div>
+    </div>
+    <div class="content-block">
+      <div class="content">
+        <p class="content__img-item"><img src="{{ url_for('static',filename='img/стул2.png') }}" class="content__img"></p>
+          <div class="content__description">В производстве всех моделей были использованы исключительно материалы с экологически чистым составом, что подтверждает абсолютную безопасность мебели для вашего здоровья. Прочность мебельных конструкций гарантирует строгое соблюдение западных норм изготовления подобной продукции, за которыми на каждом этапе создания наблюдают профессиональные технологи. При покупке цельной коллекции для комнаты, вы получаете в подарок дизайнерский проект от наших специалистов в области оформления интерьера.</div>
+      </div>
+    </div>
+    </div>
+  </main>
+  <footer class="footer">
+    <div class="footer_content">
+      <div class="footer_column">
+        <p>Исключительное право на владение сайтом и всеми сопутствующими ему материалами, доступными в рамках проекта "Mebel", принадлежат МММ СЛМ «ЗВА». Воспроизведение, копирование, распространение и иное использование сайта и материалов на сайте допустимо только с предварительного письменного согласия МММ СЛМ «ЗВА».</p>
+      </div>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <link rel="stylesheet" href="{{ url_for('static',filename='styles/style_profile.css') }}">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+  <title>Ваш профиль</title>
+</head>
+<body>
+  <div class="menu">
+    <div class="menu__body">
+      <a href="/" class="menu__button">главная</a>
+      <a href="/products" class="menu__button">товар</a>
+      <a href="/on_map" class="menu__button">на карте</a>
+      <a class="menu__button" href="/logout">выйти</a>
+    </div>
+  </div>
+  <div class="wrapper">
+    <main class="main">
+      <div class="bar">
+        <div class="bar__body">
+          <div class="bar__name">
+              Профиль
+          </div>
+          <div class="bar__name">
+              {{ current_user.name }}
+          </div>
+        </div>
+      </div>
+      <div class="list">
+          <div class="list__body">
+            {% for item in products %}
+            <div class="list__row">
+              <p class="product_img"><img src="{{url_for('static', filename=item.image_name)}}" class="product_img"></p>
+              <p class="item_title">{{ item.name }}</p>
+            </div>
+            {% endfor %}
+          </div>
+      </div>
+      {% if basket != False %}
+      <div class="under_bar">
+        <p class="under_bar_btn"><a class="btn btn-secondary" href="/ordering/{{ user.basket }}">Сделать заказ</a></p>
+        <p class="under_bar_btn2"><a class="btn btn-secondary" href="/clear_cart">Очистить корзину</a></p>
+        <p class="message">Итоговая цена: {{ total_price }}</p>
+      </div>
+      {% endif %}
+    </main>
+  </div>
+</body>
+</html>
