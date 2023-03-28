@@ -5,6 +5,7 @@ from werkzeug.utils import redirect
 from data import db_session
 from data.users import User
 from forms.user import LoginForm, RegisterForm
+from requests import *
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'quantorium280323'
@@ -32,7 +33,19 @@ def logout():
 @app.route('/')
 @app.route('/index')
 def index():
+    results = get("http://roboprom.kvantorium33.ru/api/current").json()
+    statuses = get_status(results)
     return render_template('index.html', title="Статистика линии")
+
+
+def get_status(res):
+    statuses = []
+    status_ids = {0: 'Выключена', 1: "Работает", 2: 'Ожидание', 3: 'Ошибка'}
+    for i in res['data']:
+        cell_number = i['cell']
+        cell_status = status_ids[i['params'][0]['value']]
+        statuses.append((cell_number, cell_status))
+    return statuses
 
 
 @app.route('/registration', methods=['GET', 'POST'])
