@@ -4,8 +4,16 @@
     height: 100px;
     margin: 5px;
     padding: 10px;
+    font-weight: bold;
 }
 a{
     text-decoration: none;
     color: black;
+}
+#myChart {
+  display: block;
+  margin: auto;
+}
+.status{
+  margin: 0 auto;
 }

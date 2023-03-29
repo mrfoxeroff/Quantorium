@@ -6,7 +6,7 @@ from data import db_session
 from data.users import User
 from forms.user import LoginForm, RegisterForm
 from requests import *
-from data.functions import get_status, get_count, average_speed, volume_per_day
+from data.functions import get_information
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'quantorium280323'
@@ -32,17 +32,28 @@ def logout():
 
 
 @app.route('/')
-@app.route('/index')
+@app.route('/index', methods=['GET'])
 def index():
-    api1 = get("http://roboprom.kvantorium33.ru/api/current").json()
-    information = get_status()
-    print(information)
-    performance_per_hour, count_per_day, bad_count, bad_count_percent = get_count()
-    av_speed = average_speed()
-    hours_of_volume = volume_per_day()
-    status_dict = {0: 'Выключен', 1: "Работает", 2: 'Ожидание', 3: "Ошибка"}
-    wait_dict = {0: 'Не ожидает', 1: "Ожидает заготовки", 2: "Линия переполнена"}
-    return render_template('index.html', title="Статистика линии")
+    information = get_information()
+    status_names = ['Выключен', "Работает", "Ожидание", "Ошибка"]
+    av_speeds = []
+    status_dict = [0, 0, 0, 0]
+    for i in range(1, 7):
+        av_speeds.append(information[i]['load_h'])
+        status_dict[information[i]['status']] += 1
+    count_h = information[6]['count_h']
+    count_d = information[6]['count_d']
+    bad_count = information[2]['count_d']
+    try:
+        bad_percent = round(bad_count / count_h, 2) * 100
+    except ZeroDivisionError:
+        bad_percent = 0
+    wait_dict = {0: "Не ожидает", 1: "Ожидает заготовки", 2: "Линия переполнена"}
+    return render_template('index.html', title="Статистика линии", info=information,
+                           asd=sum(av_speeds) / 6, statuses=status_dict,
+                           status_names=status_names,
+                           cah=count_h, cad=count_d, bc=bad_count, bcp=bad_percent,
+                           wt=wait_dict)
 
 
 @app.route('/registration', methods=['GET', 'POST'])
@@ -91,6 +102,16 @@ def login():
                                message="Неверный логин или пароль",
                                form=form)
     return render_template('login.html', title='Авторизация', form=form)
+
+
+@app.route('/monitor', methods=['GET'])
+def online_monitor():
+    return render_template('online.html', title='Онлайн монитор')
+
+
+@app.route('/info', methods=['GET'])
+def cell_information():
+    return render_template('info.html', title='Информация о ячейке')
 
 
 def main():
