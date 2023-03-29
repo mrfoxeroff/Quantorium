@@ -5,6 +5,8 @@ from werkzeug.utils import redirect
 from data import db_session
 from data.users import User
 from forms.user import LoginForm, RegisterForm
+from requests import *
+from data.functions import get_status, get_count, average_speed, volume_per_day
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'quantorium280323'
@@ -32,6 +34,13 @@ def logout():
 @app.route('/')
 @app.route('/index')
 def index():
+    api1 = get("http://roboprom.kvantorium33.ru/api/current").json()
+    information = get_status()
+    performance_per_hour, count_per_day, bad_count, bad_count_percent = get_count()
+    av_speed = average_speed()
+    hours_of_volume = volume_per_day()
+    status_dict = {0: 'Выключен', 1: "Работает", 2: 'Ожидание', 3: "Ошибка"}
+    wait_dict = {0: 'Не ожидает', 1: "Ожидает заготовки", 2: "Линия переполнена"}
     return render_template('index.html', title="Статистика линии")
 
 
