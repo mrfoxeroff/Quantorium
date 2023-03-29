@@ -36,6 +36,7 @@ def logout():
 def index():
     api1 = get("http://roboprom.kvantorium33.ru/api/current").json()
     information = get_status()
+    print(information)
     performance_per_hour, count_per_day, bad_count, bad_count_percent = get_count()
     av_speed = average_speed()
     hours_of_volume = volume_per_day()
