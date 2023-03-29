@@ -1,63 +1,51 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <link rel="stylesheet" href="{{ url_for('static',filename='styles/style_login.css') }}">
-    <title>Вход</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
-    <link rel="stylesheet" href="css/index.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Авторизация</title>
 </head>
 <body>
-    <div class="bar">
-        <a class="back" href="/">главная</a>
-    </div>
-    <div class="registration row col-4 justify-content-center">
-        <form action="" method="post" class="registration__field">
-            {{ form.csrf_token }}
-            <h1 title="Форма регистрации на сайте" class="row col-4 justify-content-center">Вход</h1>
-            <div class="registration__field-row">
-                <div class="registration__field-row-label">
-                    <label>{{ form.username.label }}</label>
-                </div>
-                <div class="registration__field-row-input row col-4 justify-content-center">
-                    {{ form.username(class="form-control") }}<br>
-                    {% for error in form.username.errors %}
-                        <p class="alert alert-danger" role="alert">
-                            {{ error }}
-                        </p>
-                    {% endfor %}
-                </div>
-            </div>
-            <div class="registration__field-row row col-4 justify-content-center">
-                <div class="registration__field-row-label">
-                    <label>{{ form.password.label }}</label>
-                </div>
-                <div class="registration__field-row-input row col-4 justify-content-center">
-                    {{ form.password(class="form-control", type="password") }}<br>
-                    {% for error in form.password.errors %}
-                        <p class="alert alert-danger" role="alert">
-                            {{ error }}
-                        </p>
-                    {% endfor %}
-                </div>
-            </div>
-            <div class="registration__field-row row col-4 justify-content-center">
-                <div class="registration__field-row-label">
-                    <label>{{ form.remember_me.label }} {{ form.remember_me() }}</label>
-                </div>
-            </div>
-            <div class="smbt-button row col-4 justify-content-center">
-                {{ form.submit(type="submit", class="btn btn-primary") }}
-            </div>
-            <div class="registration__field-row row col-4 justify-content-center">
-                <div class="registration__field-row-label">
-                    <a class="back-m" href="/registration">cоздать аккаунт</a>
-                </div>
-            </div>
-            <div class="error">
-                {{message}}
-            </div>
-        </form>
-    </div>
+    <header class="p-3 mb-3 border-bottom">
+        <div class="container">
+          <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+            <a href="/" class="d-flex align-items-center mb-2 mb-lg-0 text-dark text-decoration-none">
+              <svg class="bi me-2" width="40" height="32" role="img" aria-label="Bootstrap"><use xlink:href="#bootstrap"></use></svg>
+            </a>
+    
+            <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
+              <li><a href="#" class="nav-link px-2 link-secondary">Overview</a></li>
+              <li><a href="#" class="nav-link px-2 link-dark">Inventory</a></li>
+              <li><a href="#" class="nav-link px-2 link-dark">Customers</a></li>
+              <li><a href="#" class="nav-link px-2 link-dark">Products</a></li>
+            </ul>
+      </header>
+      <main>
+        <div class="container reg_form" style="min-height: 820px;">
+            <form class="row justify-content-center" method="post" action="">
+    
+              <div class="mb-3 col-12 col-md-4 err">                
+              </div>
+              <div class="w-100"></div>
+              <div class="mb-3 col-12 col-md-4">
+                <label for="formGroupExampleInput" class="form-label">Логин</label>
+                <input name="login" type="log" class="form-control" required placeholder="введите ваш логин...">
+              </div>
+              <div class="w-100"></div>
+              <div class="mb-3 col-12 col-md-4">
+                <label for="exampleInputPassword1" class="form-label">Пароль</label>
+                <input name="password" type="password" class="form-control" id="exampleInputPassword1" required placeholder="введите ваш пароль...">
+              </div>
+              <div class="w-100"></div>
+              <div class="mb-3 col-12 col-md-4">
+                <button type="submit" name="button-log" class="btn btn-secondary">Войти</button>
+    
+              </div>
+            </form>
+          </div>
+      </main>
+    
 </body>
 </html>
