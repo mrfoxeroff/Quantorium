@@ -53,10 +53,18 @@ def get_information():
     for i in range(1, 7):
         information_dict[i]['count_h'] = current_api[i - 1]['count_h']
         information_dict[i]['count_d'] = current_api[i - 1]['count_d']
-        information_dict[i]['load_h'] = current_api[i - 1]['load_h'][0] * 100
-        information_dict[i]['load_d'] = current_api[i - 1]['load_d'][0] * 100
-        information_dict[i]['status'] = current_api[i - 1]['params'][1]['value']
-        information_dict[i]['wait'] = current_api[i - 1]['params'][2]['value']
+        information_dict[i]['load_h'] = [x * 100 for x in current_api[i - 1]['load_h']]
+        information_dict[i]['load_d'] = [x * 100 for x in current_api[i - 1]['load_d']]
+        information_dict[i]['status'] = current_api[i - 1]['status']
+        information_dict[i]['wait'] = current_api[i - 1]['wait']
     return information_dict
 
 
+def get_status(id):
+    api = get(f'http://roboprom.kvantorium33.ru/api/history?cell={id}'
+              f'&param=status'
+              f'&from={begin_of_the_day}&to={current_time}').json()['data']
+    statuses = [0, 0, 0, 0]
+    for i in api:
+        statuses[i['value']] += 1
+    return statuses

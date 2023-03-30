@@ -3,101 +3,69 @@
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
     <link rel="stylesheet" href="css/index.css">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Главная</title>
 </head>
 <body>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <header class="p-3 mb-3 border-bottom">
-        <div class="container">
-          <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<header class="p-3 mb-3 border-bottom">
+    <div class="container">
+        <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
             <a href="/" class="d-flex align-items-center mb-2 mb-lg-0 text-dark text-decoration-none">
-              <svg class="bi me-2" width="40" height="32" role="img" aria-label="Bootstrap"><use xlink:href="#bootstrap"></use></svg>
+                <svg class="bi me-2" width="40" height="32" role="img" aria-label="Bootstrap">
+                    <use xlink:href="#bootstrap"></use>
+                </svg>
             </a>
 
             <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
-              <li><a href="/" class="nav-link px-2 link-secondary">Главная</a></li>
-              <li><a href="/monitor" class="nav-link px-2 link-dark">Онлайн монитор</a></li>
-              <li><a href="#" class="nav-link px-2 link-dark">Панель оператора</a></li>
-            </ul>            
-          </div>
+                <li><a href="/" class="nav-link px-2 link-secondary">Главная</a></li>
+                <li><a href="/monitor" class="nav-link px-2 link-dark">Онлайн монитор</a></li>
+                <li><a href="#" class="nav-link px-2 link-dark">Панель оператора</a></li>
+            </ul>
         </div>
-      </header>
-      <main>
-        <div class="status">
-          <canvas class="myChart" id="myChart"></canvas>
-      <script>
-          var ctx = document.getElementById('myChart').getContext('2d');
-          var myChart = new Chart(ctx, {
-              type: 'pie',
-              data: {
-                  labels: {{ status_names|tojson }},
-                  datasets: [{
-                      label: 'Статусы',
-                      data: {{ statuses }},
-                      backgroundColor: [
-                          'rgba(255, 99, 132, 0.2)',
-                          'rgba(54, 162, 235, 0.2)',
-                          'rgba(255, 206, 86, 0.2)',
-                          'rgba(75, 192, 192, 0.2)'
-                      ],
-                      borderColor: [
-                          'rgba(255, 99, 132, 1)',
-                          'rgba(54, 162, 235, 1)',
-                          'rgba(255, 206, 86, 1)',
-                          'rgba(75, 192, 192, 1)'
-                      ],
-                      borderWidth: 1
-                  }]
-              },
-              options: {
-                  responsive: false,
-                  scales: {
-                      yAxes: [{
-                          ticks: {
-                              beginAtZero: true
-                          }
-                      }]
-                  }
-              }
-          });
-      </script>
-      </div>
-            <div class="container d-flex flex-wrap align-items-center justify-content-center">
+    </div>
+</header>
+<main>
+    <canvas class="myChart" id="myChart"></canvas>
+    <script>
+
+    </script>
+    <div class="container d-flex flex-wrap align-items-center justify-content-center">
         <div class="speed col-3">
             Скорость выпуска продукции - {{ cah }}%<br>
             Выпущенные изделия - {{ cad }}<br>
             Бракованные детали - {{ bc }}<br>
             Процент брака - {{ bcp }}%<br>
             Загрузка оборудования {{ asd }}%<br>
-        </div>   
-        <!-- Там где читать дофига --> 
-             </div>  
-        <div class="container">
-            <table class="table">
-                <thead>
-                  <tr>
-                    <th scope="col"> <a href="/info">Ячейка</a></th>
-                    <th scope="col">Статус/Ожидание</th>                    
-                    <th scope="col">Обработанно за день/час</th>
-                    <th scope="col">Загрузка за день/час</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {% for elem in info.keys()%}
-                    <tr>
-                      <th scope="row"><a href="/info">{{ elem }}</a></th>
-                      <td>{{ status_names[info[elem]['status']] }}/ {{ wt[info[elem]['wait']] }}</td>
-                      <td>{{ info[elem]['count_d'] }}шт/ {{ info[elem]['count_h'] }}шт</td>
-                      <td>{{ info[elem]['load_d'] }}%/ {{ info[elem]['load_h'] }}%</td>
-                    </tr>
-                  {% endfor %}  
-                </tbody>
-              </table>
-            </div>
-    
-      </main>
+        </div>
+        <!-- Там где читать дофига -->
+    </div>
+    <div class="container">
+        <table class="table">
+            <thead>
+            <tr>
+                <th scope="col"><a href="/info">Ячейка</a></th>
+                <th scope="col">Статус/Ожидание</th>
+                <th scope="col">Обработанно за день/час</th>
+                <th scope="col">Загрузка за день/час</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for elem in info.keys()%}
+            <tr>
+                <th scope="row"><a href="/info/{{ elem }}">{{ elem }}</a></th>
+                <td>{{ status_names[info[elem]['status']] }}/ {{ wt[info[elem]['wait']] }}</td>
+                <td>{{ info[elem]['count_d'] }}шт/ {{ info[elem]['count_h'] }}шт</td>
+                <td>{{ info[elem]['load_d'] }}%/ {{ info[elem]['load_h'] }}%</td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+</main>
 </body>
 </html>

@@ -4,9 +4,9 @@ from flask_restful import Api
 from werkzeug.utils import redirect
 from data import db_session
 from data.users import User
-from forms.user import LoginForm, RegisterForm
+from forms.user import LoginForm
 from requests import *
-from data.functions import get_information
+from data.functions import get_information, get_status
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'quantorium280323'
@@ -39,7 +39,7 @@ def index():
     av_speeds = []
     status_dict = [0, 0, 0, 0]
     for i in range(1, 7):
-        av_speeds.append(information[i]['load_h'])
+        av_speeds.append(information[i]['load_h'][1])
         status_dict[information[i]['status']] += 1
     count_h = information[6]['count_h']
     count_d = information[6]['count_d']
@@ -56,39 +56,6 @@ def index():
                            wt=wait_dict)
 
 
-@app.route('/registration', methods=['GET', 'POST'])
-def register():
-    form = RegisterForm()
-    if form.validate_on_submit():
-        if form.password.data != form.password_again.data:
-            return render_template('registration.html', title='Регистрация',
-                                   form=form,
-                                   message="Пароли не совпадают")
-        db_sess = db_session.create_session()
-        if db_sess.query(User).filter(User.email == form.email.data).first():
-            return render_template('registration.html', title='Регистрация',
-                                   form=form,
-                                   message="Данная почта уже зарегистрированна")
-        if db_sess.query(User).filter(User.username == form.username.data).first():
-            return render_template('registration.html', title='Регистрация',
-                                   form=form,
-                                   message='Данное имя пользоватея уже существует')
-        if not form.agreement.data:
-            return render_template('registration.html', title="Регистрация",
-                                   form=form,
-                                   message='Вы не приняли пользовательское соглашение')
-        user = User(
-            name=form.name.data,
-            email=form.email.data,
-            username=form.username.data,
-        )
-        user.set_password(form.password.data)
-        db_sess.add(user)
-        db_sess.commit()
-        return redirect('/login')
-    return render_template('registration.html', title='Регистрация', form=form)
-
-
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     form = LoginForm()
@@ -96,7 +63,6 @@ def login():
         db_sess = db_session.create_session()
         user = db_sess.query(User).filter(User.username == form.username.data).first()
         if user and user.check_password(form.password.data):
-            login_user(user, remember=form.remember_me.data)
             return redirect("/")
         return render_template('login.html',
                                message="Неверный логин или пароль",
@@ -106,12 +72,20 @@ def login():
 
 @app.route('/monitor', methods=['GET'])
 def online_monitor():
-    return render_template('online.html', title='Онлайн монитор')
+    information = get_information()
+    return render_template('online.html', title='Онлайн монитор', info=information)
 
 
-@app.route('/info', methods=['GET'])
-def cell_information():
-    return render_template('info.html', title='Информация о ячейке')
+@app.route('/info/<int:id>', methods=['GET'])
+def cell_information(id):
+    information = get_information()[id]
+    for i in range(4):
+        information['load_h'][i] = round(information['load_h'][i], 2)
+        information['load_d'][i] = round(information['load_d'][i], 2)
+    statuses = get_status(id)
+    status_names = ['Выключен', "Работает", "Ожидание", "Ошибка"]
+    return render_template('info.html', title='Информация о ячейке', info=information,
+                           statuses=statuses, status_names=status_names)
 
 
 def main():

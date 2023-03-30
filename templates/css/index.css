@@ -10,10 +10,7 @@ a{
     text-decoration: none;
     color: black;
 }
-#myChart {
+#myChart{
   display: block;
-  margin: auto;
-}
-.status{
   margin: 0 auto;
 }

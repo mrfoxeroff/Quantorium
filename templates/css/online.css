@@ -5,7 +5,11 @@
     margin: 5px;
     padding: 10px;
 }
-a{
+a.cell{
+    font-size: 5px;
+    color: white;
     text-decoration: none;
-    color: black;
+}
+#myChart{
+    margin-left: 30%;
 }
