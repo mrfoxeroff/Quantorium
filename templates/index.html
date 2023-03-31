@@ -56,7 +56,7 @@
             <tbody>
             {% for elem in info.keys()%}
             <tr>
-                <th scope="row"><a href="/info/{{ elem }}">{{ elem }}</a></th>
+                <th scope="row"><a href="/info/cell={{ elem }}">{{ elem }}</a></th>
                 <td>{{ status_names[info[elem]['status']] }}/ {{ wt[info[elem]['wait']] }}</td>
                 <td>{{ info[elem]['count_d'] }}шт/ {{ info[elem]['count_h'] }}шт</td>
                 <td>{{ info[elem]['load_d'] }}%/ {{ info[elem]['load_h'] }}%</td>

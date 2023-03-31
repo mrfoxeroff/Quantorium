@@ -76,7 +76,7 @@ def online_monitor():
     return render_template('online.html', title='Онлайн монитор', info=information)
 
 
-@app.route('/info/<int:id>', methods=['GET'])
+@app.route('/info/cell=<int:id>', methods=['GET'])
 def cell_information(id):
     information = get_information()[id]
     for i in range(4):
